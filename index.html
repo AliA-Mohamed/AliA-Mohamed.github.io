@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ali Mohamed, biomolecular scientist working on mitochondria and metabolism in neurodegenerative and neuromuscular disease, multi-omics and AI for science.">
+<meta property="og:title" content="Ali Mohamed">
+<meta property="og:description" content="Mitochondria, metabolism and multi-omics in neurodegenerative disease.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ali Mohamed</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: narrow academic column (max 60rem), sticky hairline nav, hash-routed pages; hero = live multi-omics network canvas */
+:root {
+  --bg: #ffffff;
+  --surface: #f4f7f8;
+  --fg: #14212a;
+  --muted: #5b6b75;
+  --line: #dde5e8;
+  --accent: #155a6e;      /* mitochondrial ink */
+  --accent-soft: #e3eff2;
+  --metab: #155a6e;       /* metabolites */
+  --lipid: #b5762a;       /* lipids */
+  --rna: #6b5aa8;         /* transcripts */
+  --f-display: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --f-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1619; --surface: #142024; --fg: #e4ecee; --muted: #93a6ad; --line: #23333a;
+    --accent: #6fc0d3; --accent-soft: #17303a; --metab: #6fc0d3; --lipid: #e0a85a; --rna: #a99be0;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1619; --surface: #142024; --fg: #e4ecee; --muted: #93a6ad; --line: #23333a;
+  --accent: #6fc0d3; --accent-soft: #17303a; --metab: #6fc0d3; --lipid: #e0a85a; --rna: #a99be0;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body, var(--f-body)); font-size: 16px; line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+.wrap {
+  max-width: 60rem; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { font-family: var(--f-display); font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* Nav */
+nav.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+}
+nav.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 3.6rem; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--fg); font-family: var(--f-display); font-size: 1.15rem; font-weight: 600; }
+.brand svg { width: 28px; height: 28px; flex: none; }
+.links { display: flex; gap: 1.6rem; }
+.links a {
+  position: relative; text-decoration: none; color: var(--muted); font-size: .9rem; letter-spacing: .01em;
+}
+.links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+.links a:hover { color: var(--fg); }
+.links a:hover::after, .links a[aria-current="page"]::after { transform: scaleX(1); }
+.links a[aria-current="page"] { color: var(--accent); font-weight: 500; }
+.menu-btn { display: none; background: none; border: 0; color: var(--fg); padding: .4rem; cursor: pointer; }
+@media (max-width: 760px) {
+  .menu-btn { display: block; }
+  .links { display: none; position: absolute; top: 3.6rem; left: 0; right: 0; flex-direction: column; gap: 0;
+    background: var(--surface); border-bottom: 1px solid var(--line);
+    padding: .5rem max(16px, env(safe-area-inset-right, 0px)) .8rem max(16px, env(safe-area-inset-left, 0px)); }
+  .links.open { display: flex; }
+  .links a { padding: .45rem 0; font-size: 1rem; }
+  .links a::after { display: none; }
+}
+
+main { padding-block: 3.5rem 4.5rem; }
+.page { animation: enter .55s cubic-bezier(.22,1,.36,1) both; }
+@keyframes enter { from { opacity: .001; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .page { animation: none; } }
+
+.eyebrow { font-family: var(--f-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.lede { color: var(--muted); font-size: 1.1rem; line-height: 1.7; max-width: 38rem; }
+
+/* Home */
+.hero { display: grid; grid-template-columns: minmax(0, 40rem); padding-block: 2.5rem 1rem; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1.06; letter-spacing: -0.03em; margin: .6rem 0 1.3rem; }
+.hero h1 em { font-weight: 400; color: var(--accent); }
+.hero > * { min-width: 0; }
+.cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.8rem; }
+.btn { display: inline-flex; align-items: center; gap: .4rem; padding: .6rem 1.1rem; border-radius: 3px; font-size: .9rem; font-weight: 500; text-decoration: none; border: 1px solid var(--accent); }
+.btn.solid { background: var(--accent); color: var(--bg); }
+.btn.ghost { color: var(--accent); }
+.bgnet { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(100deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.45) 40%, #000 75%);
+          mask-image: linear-gradient(100deg, rgba(0,0,0,.28) 0%, rgba(0,0,0,.45) 40%, #000 75%); }
+.bgnet canvas { width: 100%; height: 100%; display: block; }
+main, footer { position: relative; z-index: 1; }
+.legend { display: flex; flex-wrap: wrap; gap: .3rem 1rem; margin-top: 1.6rem; font-family: var(--f-mono); font-size: .72rem; color: var(--muted); }
+.legend i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: .35rem; vertical-align: 1px; }
+.legend .hint { opacity: .8; }
+
+.facts { margin-top: 4rem; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(2px); display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.facts div { padding: 1.2rem 1rem 1.2rem 0; display: flex; flex-direction: column; gap: .25rem; min-width: 0; }
+.facts div + div { padding-left: 1rem; border-left: 1px solid var(--line); }
+.facts b { font-family: var(--f-display); font-size: 1.15rem; font-weight: 600; }
+.facts span { font-size: .85rem; color: var(--muted); }
+@media (max-width: 760px) {
+  .hero { padding-block: 1rem 0; }
+  .facts { grid-template-columns: 1fr 1fr; }
+  .facts div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .facts div:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+
+/* Generic page head */
+.head { margin-bottom: 2.6rem; display: flex; flex-direction: column; gap: .7rem; }
+.head h1 { font-size: clamp(2rem, 4vw, 2.6rem); line-height: 1.1; }
+
+/* Research */
+.theme { display: grid; grid-template-columns: 11rem 1fr; gap: 2rem; padding-block: 1.8rem; border-top: 1px solid var(--line); }
+.theme:last-child { border-bottom: 1px solid var(--line); }
+.theme > * { min-width: 0; }
+.theme .tag { font-family: var(--f-mono); font-size: .75rem; color: var(--accent); letter-spacing: .04em; padding-top: .35rem; }
+.theme h2 { font-size: 1.45rem; margin-bottom: .6rem; }
+.theme p { color: var(--muted); max-width: 40rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .9rem; }
+.chip { font-family: var(--f-mono); font-size: .72rem; padding: .2rem .55rem; border: 1px solid var(--line); border-radius: 2px; color: var(--fg); background: var(--surface); }
+@media (max-width: 760px) { .theme { grid-template-columns: 1fr; gap: .4rem; } }
+
+/* Publications */
+.pub { display: grid; grid-template-columns: 7rem 1fr; gap: 1.5rem; padding-block: 1.3rem; border-top: 1px solid var(--line); }
+.pub > * { min-width: 0; }
+.pub .kind { font-family: var(--f-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding-top: .25rem; }
+.pub h3 { font-size: 1.15rem; line-height: 1.35; margin-bottom: .3rem; }
+.pub p { font-size: .92rem; color: var(--muted); }
+.status { display: inline-block; font-family: var(--f-mono); font-size: .7rem; padding: .1rem .45rem; border-radius: 2px; background: var(--accent-soft); color: var(--accent); margin-top: .5rem; }
+.sub { font-size: 1.25rem; margin: 2.6rem 0 .4rem; }
+.head + .sub { margin-top: 0; }
+.pub .authors { font-size: .85rem; line-height: 1.55; margin-bottom: .25rem; }
+.pub .authors b { color: var(--fg); font-weight: 600; }
+.pub .venue { font-size: .9rem; color: var(--fg); }
+.plinks { display: flex; gap: 1rem; margin-top: .45rem; font-family: var(--f-mono); font-size: .75rem; }
+.plinks a { text-decoration: none; }
+.plinks a:hover { text-decoration: underline; }
+.pub + .sub, .pub + .note { border-top: 1px solid var(--line); padding-top: 2.2rem; }
+.note { margin-top: 1.6rem; font-size: .88rem; color: var(--muted); }
+@media (max-width: 760px) { .pub { grid-template-columns: 1fr; gap: .3rem; } }
+
+/* Teaching / services */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.cell { background: var(--bg); padding: 1.6rem; display: flex; flex-direction: column; gap: .55rem; min-width: 0; }
+.cell h2 { font-size: 1.25rem; }
+.cell p { color: var(--muted); font-size: .95rem; }
+.cell .meta { font-family: var(--f-mono); font-size: .72rem; color: var(--accent); letter-spacing: .04em; }
+@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+/* Contact */
+.contact { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+.contact > * { min-width: 0; }
+.row { display: flex; flex-direction: column; gap: .2rem; padding-block: 1rem; border-top: 1px solid var(--line); }
+.row .lbl { font-family: var(--f-mono); font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.email { display: flex; flex-wrap: wrap; align-items: center; gap: .7rem; }
+.email code { font-family: var(--f-mono); font-size: 1rem; user-select: all; word-break: break-all; }
+.copy { font: inherit; font-size: .8rem; padding: .25rem .7rem; border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: 3px; cursor: pointer; }
+@media (max-width: 760px) { .contact { grid-template-columns: 1fr; gap: 1rem; } }
+
+/* Home additions */
+.home-block { margin-top: 3.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+.block-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.block-head a { font-size: .9rem; text-decoration: none; }
+.themes3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.tcard { display: flex; flex-direction: column; gap: .5rem; padding: 1.3rem; border: 1px solid var(--line); border-radius: 4px; text-decoration: none; color: var(--fg); background: var(--bg); transition: border-color .2s, transform .2s; min-width: 0; }
+.tcard:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tcard .dot { width: 9px; height: 9px; border-radius: 50%; }
+.tcard h3 { font-size: 1.15rem; line-height: 1.3; }
+.tcard p { font-size: .9rem; color: var(--muted); }
+.now { margin-top: 3rem; padding: 1.4rem 1.5rem; background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(3px); border-radius: 4px; display: flex; flex-direction: column; gap: .5rem; }
+.now p:last-child { max-width: 46rem; }
+@media (max-width: 760px) { .themes3 { grid-template-columns: 1fr; } }
+
+/* Research additions */
+.theme .tag { line-height: 1.7; }
+.facts-list { margin: .8rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: .95rem; display: flex; flex-direction: column; gap: .2rem; }
+.where { margin-top: .8rem !important; font-size: .82rem; font-family: var(--f-mono); color: var(--fg) !important; opacity: .75; }
+.path { margin-top: 3.5rem; }
+.path h2 { font-size: 1.6rem; margin-bottom: 1.4rem; }
+.timeline { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); margin-left: .3rem; }
+.timeline li { position: relative; display: grid; grid-template-columns: 5.5rem 1fr; gap: 1rem; padding: 0 0 1.3rem 1.4rem; }
+.timeline li::before { content: ""; position: absolute; left: -5px; top: .45rem; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+.timeline li:first-child::before { background: var(--accent); }
+.timeline li > div { min-width: 0; }
+.timeline .yr { font-family: var(--f-mono); font-size: .8rem; color: var(--accent); padding-top: .15rem; font-variant-numeric: tabular-nums; }
+.timeline span:not(.yr) { color: var(--muted); font-size: .9rem; }
+@media (max-width: 520px) { .timeline li { grid-template-columns: 1fr; gap: .1rem; } }
+
+footer { border-top: 1px solid var(--line); padding-block: 1.6rem; font-size: .82rem; color: var(--muted); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem; }
+</style>
+</head>
+<body>
+
+
+<div class="bgnet" id="net" aria-hidden="true"><canvas id="netCanvas"></canvas></div>
+
+<nav class="top">
+  <div class="wrap">
+    <a class="brand" href="#home" aria-label="Home">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <ellipse cx="16" cy="16" rx="13" ry="8" fill="none" stroke="var(--accent)" stroke-width="1.8" transform="rotate(-25 16 16)"/>
+        <path d="M7 19 q3-6 5 0 t5 0 t5 0 t4-2" fill="none" stroke="var(--accent)" stroke-width="1.4" transform="rotate(-25 16 16)"/>
+      </svg>
+      <span>Ali Mohamed</span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+    <div class="links" id="links">
+      <a href="#home">Home</a>
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#teaching">Teaching</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <!-- HOME -->
+  <section class="page" data-page="home">
+    <div class="hero">
+      <div>
+        <p class="eyebrow">Neurodegeneration · Metabolism · Multi-omics · AI for science</p>
+        <h1>How cells lose their <em>metabolic balance</em> in neurodegenerative disease</h1>
+        <p class="lede">I'm a pharmacist turned biomolecular scientist. Across muscle, microglia and human cohorts, I study how mitochondria and metabolism fail in disease, measure it with metabolomics, lipidomics and transcriptomics, and build the computational tools to make sense of the data.</p>
+        <div class="cta">
+          <a class="btn solid" href="#research">Explore my research</a>
+          <a class="btn ghost" href="#contact">Get in touch</a>
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--metab)"></i>metabolites</span>
+          <span><i style="background:var(--lipid)"></i>lipids</span>
+          <span><i style="background:var(--rna)"></i>transcripts</span>
+          <span class="hint">the network behind this page reacts to your cursor</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="facts">
+      <div><b>7</b><span>peer-reviewed publications, 2 first-author manuscripts in preparation</span></div>
+      <div><b>5 countries</b><span>research in Italy, Germany, Spain, the Netherlands and Egypt</span></div>
+      <div><b>10+</b><span>international conference presentations</span></div>
+      <div><b>R · Python</b><span>omics pipelines, machine learning and LLM tools</span></div>
+    </div>
+
+    <div class="home-block">
+      <div class="block-head">
+        <p class="eyebrow">Research themes</p>
+        <a href="#research">All projects →</a>
+      </div>
+      <div class="themes3">
+        <a class="tcard" href="#research">
+          <span class="dot" style="background:var(--metab)"></span>
+          <h3>Mitochondria in neuromuscular disease</h3>
+          <p>Muscle-intrinsic mitochondrial and lipid defects in SBMA, modelled in patient iPSC-derived skeletal muscle.</p>
+        </a>
+        <a class="tcard" href="#research">
+          <span class="dot" style="background:var(--lipid)"></span>
+          <h3>Glial metabolism in Parkinson's disease</h3>
+          <p>Metabolic reprogramming of microglia carrying GBA1 mutations, from cell culture to mouse brain.</p>
+        </a>
+        <a class="tcard" href="#research">
+          <span class="dot" style="background:var(--rna)"></span>
+          <h3>Computational metabolomics and AI</h3>
+          <p>Machine learning on NMR and MS data, multi-omics risk models, and LLM-driven literature intelligence.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="now">
+      <p class="eyebrow">Now</p>
+      <p>Finishing my PhD at the University of Milan (thesis submitted, defence pending) and writing up the first-author SBMA metabolomics study with Leiden University. Open to postdoctoral positions in neuromuscular disease, metabolism and computational biology.</p>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="page" data-page="research" hidden>
+    <div class="head">
+      <p class="eyebrow">Research</p>
+      <h1>Metabolism as a readout of disease</h1>
+      <p class="lede">Most of the diseases I work on are defined by a faulty protein: a polyglutamine-expanded androgen receptor, a mutant glucocerebrosidase, an aggregating chaperone client. My question is what that protein does to the cell's energy and lipid metabolism, and whether those changes can be measured, modelled and eventually treated.</p>
+    </div>
+
+    <article class="theme">
+      <p class="tag">Theme 1<br>PhD · 2023 to now</p>
+      <div>
+        <h2>Mitochondrial dysfunction in spinal and bulbar muscular atrophy</h2>
+        <p>SBMA (Kennedy's disease) is caused by a CAG repeat expansion in the androgen receptor gene. It is usually framed as a motor neuron disease, but muscle is affected directly. I built six MyoD1-inducible iPSC lines from SBMA patients and controls, including an isogenic pair, and showed impaired myogenic differentiation, fragmented mitochondrial networks and a remodelled lipidome in patient myotubes.</p>
+        <ul class="facts-list">
+          <li>Mitochondrial morphology by confocal and electron microscopy, with automated image analysis</li>
+          <li>Membrane potential, ROS and mitochondrial mass by flow cytometry</li>
+          <li>Untargeted metabolomics and lipidomics at Leiden University (COST PRESTO STSM, 2026)</li>
+        </ul>
+        <div class="chips"><span class="chip">iPSC</span><span class="chip">MyoD1</span><span class="chip">TEM</span><span class="chip">JC-1 · MitoSOX</span><span class="chip">LC-MS</span><span class="chip">lipidomics</span></div>
+        <p class="where">University of Milan, Poletti and Galbiati labs · Leiden University (LACDR)</p>
+      </div>
+    </article>
+
+    <article class="theme">
+      <p class="tag">Theme 2<br>MSc · 2022 to 2023</p>
+      <div>
+        <h2>Microglia metabolic reprogramming in GBA1-linked Parkinson's disease</h2>
+        <p>Mutations in GBA1 are the most common genetic risk factor for Parkinson's disease. My master's thesis proposed that they push microglia into a different metabolic state, changing how they talk to neurons. I tested this in cell models with transcriptomic profiling in Milan, then characterised microglial phenotypes in GBA mutant mice at DZNE Bonn.</p>
+        <div class="chips"><span class="chip">microglia</span><span class="chip">glia–neuron crosstalk</span><span class="chip">transcriptomics</span><span class="chip">immunohistochemistry</span><span class="chip">mouse models</span></div>
+        <p class="where">University of Milan, Ciana lab · DZNE Bonn, Di Monte lab · MSc 110/110 cum laude</p>
+      </div>
+    </article>
+
+    <article class="theme">
+      <p class="tag">Theme 3<br>2025 to now</p>
+      <div>
+        <h2>Computational metabolomics and multi-omics modelling</h2>
+        <p>At Biosfer Teslab, within the MSCA CardioSCOPE programme, I worked on AVANTE, a project building a cardiovascular risk tool for women from capillary blood. I analysed NMR lipoprotein metabolomics and Olink proteomics from 268 participants and trained machine-learning and deep-learning models to quantify metabolites directly from NMR spectra.</p>
+        <div class="chips"><span class="chip">NMR metabolomics</span><span class="chip">Olink proteomics</span><span class="chip">PLS · XGBoost · CNN</span><span class="chip">regularised models</span></div>
+        <p class="where">Biosfer Teslab, Tarragona, Spain</p>
+      </div>
+    </article>
+
+    <article class="theme">
+      <p class="tag">Theme 4<br>2026 to now</p>
+      <div>
+        <h2>AI for rare-disease research</h2>
+        <p>The SBMA Research Agent is an autonomous literature system I built for the SBMA field. It ingests PubMed, CrossRef and Semantic Scholar, has curated about 1,000 SBMA papers from 1968 to today, and uses LLMs to extract more than 10,000 structured findings. It writes a living textbook, a monthly newsletter and a map of open research gaps.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">LLMs</span><span class="chip">RAG</span><span class="chip">SQLite · Supabase</span><span class="chip">React</span></div>
+        <p class="where"><a href="https://github.com/AliA-Mohamed" target="_blank" rel="noopener">github.com/AliA-Mohamed</a></p>
+      </div>
+    </article>
+
+    <article class="theme">
+      <p class="tag">Collaborations<br>Poletti lab</p>
+      <div>
+        <h2>Proteostasis and protein quality control</h2>
+        <p>In the Poletti lab I contribute to team projects on how cells clear misfolded proteins: androgen receptor isoforms and degradation in SBMA, lysosomal quality control in Huntington's disease, and the HSPB8–BAG3 chaperone system in neurodegeneration and cancer.</p>
+        <div class="chips"><span class="chip">autophagy</span><span class="chip">lysosomes</span><span class="chip">HSPB8</span><span class="chip">polyglutamine diseases</span></div>
+      </div>
+    </article>
+
+    <div class="path">
+      <h2>Path so far</h2>
+      <ol class="timeline">
+        <li><span class="yr">2026</span><div><b>Visiting PhD candidate</b>, Leiden University, NL<br><span>Untargeted metabolomics and lipidomics of SBMA muscle</span></div></li>
+        <li><span class="yr">2025–26</span><div><b>Bioinformatician</b>, Biosfer Teslab, ES<br><span>NMR machine learning and the AVANTE multi-omics project</span></div></li>
+        <li><span class="yr">2023–</span><div><b>PhD</b>, Pharmacological and Biomolecular Sciences, University of Milan, IT<br><span>Mitochondrial dysfunction in SBMA iPSC-derived skeletal muscle</span></div></li>
+        <li><span class="yr">2022–23</span><div><b>Research intern</b>, DZNE Bonn, DE<br><span>Microglia phenotype in GBA mutant mice</span></div></li>
+        <li><span class="yr">2020–23</span><div><b>MSc</b>, Pharmaceutical Biotechnology, University of Milan, IT<br><span>Microglia metabolic reprogramming in GBA1-linked Parkinson's disease</span></div></li>
+        <li><span class="yr">2017–19</span><div><b>Graduate diploma and teaching</b>, Bioinformatics and Genomics, Cairo University, EG<br><span>Built a web portal for drug pharmacomicrobiomics</span></div></li>
+        <li><span class="yr">2009–17</span><div><b>BPharm</b> and hospital pharmacist, Egypt<br><span>LC-MS/MS internship at IAREN, Porto, in 2014</span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="page" data-page="publications" hidden>
+    <div class="head">
+      <p class="eyebrow">Publications</p>
+      <h1>Publications</h1>
+      <p class="lede">Seven peer-reviewed articles from the Poletti lab on SBMA, protein quality control and neurodegeneration, with two first-author papers on mitochondria in SBMA on the way.</p>
+    </div>
+
+    <h2 class="sub">In preparation · first author</h2>
+    <article class="pub">
+      <p class="kind">Article</p>
+      <div>
+        <h3>Mitochondrial dysfunction and lipid metabolic remodeling in iPSC-derived skeletal muscle cells from SBMA patients: from morphology to metabolome</h3>
+        <p class="authors"><b>Mohamed A</b>, et al.</p>
+        <span class="status">Manuscript in preparation</span>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">Review</p>
+      <div>
+        <h3>Mitochondrial dysfunction in SBMA: a comprehensive review</h3>
+        <p class="authors"><b>Mohamed A</b>, et al.</p>
+        <span class="status">Pre-final draft</span>
+      </div>
+    </article>
+
+    <h2 class="sub">Peer-reviewed articles</h2>
+    <article class="pub">
+      <p class="kind">2026</p>
+      <div>
+        <h3>The alternative androgen receptor isoform A mitigates toxicity of polyglutamine-elongated mutant androgen receptor in spinal and bulbar muscular atrophy</h3>
+        <p class="authors">Chierichetti M, Andreotti R, Tedesco B, Ferrari V, Cornaggia L, Pramaggiore P, Cozzi M, <b>Mohamed A</b>, Magdalena R, Piccolella M, Boarolo G, Crippa V, Rusmini P, Galbiati M, Rinaldi C, Anderson EN, Pandey UB, Pennuto M, Cristofani R, Poletti A</p>
+        <p class="venue"><i>J Adv Res</i> 2026</p>
+        <div class="plinks"><a href="https://doi.org/10.1016/j.jare.2026.01.051" target="_blank" rel="noopener">DOI</a></div>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2026</p>
+      <div>
+        <h3>FAK signaling pathways are modulated by HSPB8 and BAG3 in breast cancer</h3>
+        <p class="authors">Piccolella M, Tedesco B, Ferrari V, Filippone MG, Tucci FA, Pandolfi A, <b>Mohamed A</b>, Cozzi M, Chierichetti M, Cornaggia L, Pramaggiore P, Cristofani R, Crippa V, Rusmini P, Galbiati M, Poletti A</p>
+        <p class="venue"><i>Cell Commun Signal</i> 2026</p>
+        <div class="plinks"><a href="https://doi.org/10.1186/s12964-026-02698-2" target="_blank" rel="noopener">DOI</a><a href="https://pubmed.ncbi.nlm.nih.gov/41664196/" target="_blank" rel="noopener">PubMed</a></div>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2025</p>
+      <div>
+        <h3>Impairment of lysosomal quality control in Huntington disease</h3>
+        <p class="authors">Rusmini P, Mina F, Valenza M, Vitali M, Ferrari V, Tedesco B, Casarotto E, Cozzi M, Chierichetti M, <b>Mohamed A</b>, Pramaggiore P, Cornaggia L, Milioto C, Brodnanova M, Magdalena R, Koshal P, Piccolella M, Cristofani R, Galbiati M, Crippa V, Poletti A</p>
+        <p class="venue"><i>Cell Death Dis</i> 2025;16(1):762</p>
+        <div class="plinks"><a href="https://doi.org/10.1038/s41419-025-08103-z" target="_blank" rel="noopener">DOI</a><a href="https://pubmed.ncbi.nlm.nih.gov/41145409/" target="_blank" rel="noopener">PubMed</a></div>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2025</p>
+      <div>
+        <h3>Targeting androgen receptor stability and degradation: approaches for developing a therapy for spinal and bulbar muscular atrophy</h3>
+        <p class="authors">Cristofani R, Tedesco B, Ferrari V, Chierichetti M, Cozzi M, Pramaggiore P, Cornaggia L, <b>Mohamed A</b>, Casarotto E, Brodnanova M, Magdalena R, Koshal P, Piccolella M, Crippa V, Galbiati M, Poletti A, Rusmini P</p>
+        <p class="venue"><i>Cell Commun Signal</i> 2025;23(1):344</p>
+        <div class="plinks"><a href="https://doi.org/10.1186/s12964-025-02351-4" target="_blank" rel="noopener">DOI</a><a href="https://pubmed.ncbi.nlm.nih.gov/40676613/" target="_blank" rel="noopener">PubMed</a></div>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2025</p>
+      <div>
+        <h3>One gene, many phenotypes: the role of KIF5A in neurodegenerative and neurodevelopmental diseases</h3>
+        <p class="authors">Cozzi M, Tedesco B, Ferrari V, Chierichetti M, Pramaggiore P, Cornaggia L, Magdalena R, Brodnanova M, <b>Mohamed A</b>, Milioto C, Piccolella M, Galbiati M, Rusmini P, Crippa V, Gellera C, Magri S, Taroni F, Cristofani R, Poletti A</p>
+        <p class="venue"><i>Cell Commun Signal</i> 2025;23(1):287</p>
+        <div class="plinks"><a href="https://doi.org/10.1186/s12964-025-02277-x" target="_blank" rel="noopener">DOI</a><a href="https://pubmed.ncbi.nlm.nih.gov/40524150/" target="_blank" rel="noopener">PubMed</a></div>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2025</p>
+      <div>
+        <h3>Small heat shock protein B8: from cell functions to its involvement in diseases and potential therapeutic applications</h3>
+        <p class="authors">Chierichetti M, Cristofani R, Crippa V, Ferrari V, Cozzi M, Casarotto E, Pramaggiore P, Cornaggia L, Patelli G, <b>Mohamed A</b>, Piccolella M, Galbiati M, Rusmini P, Tedesco B, Poletti A</p>
+        <p class="venue"><i>Neural Regen Res</i> 2025;20(10):2872–2886</p>
+        <div class="plinks"><a href="https://doi.org/10.4103/NRR.NRR-D-24-00517" target="_blank" rel="noopener">DOI</a><a href="https://pubmed.ncbi.nlm.nih.gov/39435632/" target="_blank" rel="noopener">PubMed</a></div>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2024</p>
+      <div>
+        <h3>Lysosome quality control in health and neurodegenerative diseases</h3>
+        <p class="authors">Ferrari V, Tedesco B, Cozzi M, Chierichetti M, Casarotto E, Pramaggiore P, Cornaggia L, <b>Mohamed A</b>, Patelli G, Piccolella M, Cristofani R, Crippa V, Galbiati M, Poletti A, Rusmini P</p>
+        <p class="venue"><i>Cell Mol Biol Lett</i> 2024;29(1):116</p>
+        <div class="plinks"><a href="https://doi.org/10.1186/s11658-024-00633-2" target="_blank" rel="noopener">DOI</a><a href="https://pubmed.ncbi.nlm.nih.gov/39237893/" target="_blank" rel="noopener">PubMed</a></div>
+      </div>
+    </article>
+
+    <h2 class="sub">Selected talks · first author</h2>
+    <article class="pub">
+      <p class="kind">2025</p>
+      <div>
+        <h3>Insights into mitochondrial dysfunction in spinal and bulbar muscular atrophy through iPSC-derived skeletal muscle models</h3>
+        <p class="venue">World Mitochondria Society</p>
+      </div>
+    </article>
+    <article class="pub">
+      <p class="kind">2026</p>
+      <div>
+        <h3>Muscle mitochondrial dysfunctions and systemic lipidomic remodeling in SBMA</h3>
+        <p class="venue">Oral presentation, Kennedy's Disease Association Conference</p>
+      </div>
+    </article>
+
+    <p class="note">Up-to-date list on <a href="https://orcid.org/0000-0002-0264-9191" target="_blank" rel="noopener">ORCID 0000-0002-0264-9191</a>.</p>
+  </section>
+
+  <!-- TEACHING -->
+  <section class="page" data-page="teaching" hidden>
+    <div class="head">
+      <p class="eyebrow">Teaching</p>
+      <h1>Teaching</h1>
+      <p class="lede">I teach programming to people who have never written code, and data analysis to scientists who need it for their own experiments.</p>
+    </div>
+    <div class="grid2">
+      <div class="cell">
+        <p class="meta">Stanford University</p>
+        <h2>Code in Place</h2>
+        <p>Section leader for Stanford's free introductory Python course, running weekly sections for beginners worldwide.</p>
+      </div>
+      <div class="cell">
+        <p class="meta">10 modules</p>
+        <h2>From Scratch to Publication</h2>
+        <p>A course on direct-infusion MS lipidomics, from raw spectra through statistics to publication-ready figures.</p>
+      </div>
+      <div class="cell">
+        <p class="meta">Course</p>
+        <h2>R for biologists</h2>
+        <p>Hands-on R for wet-lab researchers: data wrangling, statistics and plotting with real omics datasets.</p>
+      </div>
+      <div class="cell">
+        <p class="meta">Lab training</p>
+        <h2>iPSC culture</h2>
+        <p>Training and supporting colleagues in iPSC maintenance and differentiation protocols.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="page" data-page="services" hidden>
+    <div class="head">
+      <p class="eyebrow">Services</p>
+      <h1>Work with me</h1>
+      <p class="lede">I work independently with students, labs and companies. The first consultation is free.</p>
+    </div>
+    <div class="grid2">
+      <div class="cell">
+        <p class="meta">Analysis</p>
+        <h2>Omics data analysis</h2>
+        <p>Metabolomics, lipidomics and transcriptomics: preprocessing, statistics, pathway enrichment and integration.</p>
+      </div>
+      <div class="cell">
+        <p class="meta">Courses</p>
+        <h2>R and Python training</h2>
+        <p>One-to-one or group courses, built around your own data so the skills transfer straight to your project.</p>
+      </div>
+      <div class="cell">
+        <p class="meta">Writing</p>
+        <h2>Scientific revision</h2>
+        <p>Review of theses and research articles for structure, methods, statistics and clarity before submission.</p>
+      </div>
+      <div class="cell">
+        <p class="meta">Free</p>
+        <h2>Consultation</h2>
+        <p>A first call to scope your question and decide whether and how I can help.</p>
+        <a href="#contact">Book a consultation →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="page" data-page="contact" hidden>
+    <div class="head">
+      <p class="eyebrow">Contact</p>
+      <h1>Contact</h1>
+      <p class="lede">I'm open to postdoctoral and research positions in neuromuscular disease, metabolomics and computational biology, and to collaborations.</p>
+    </div>
+    <div class="contact">
+      <div>
+        <div class="row">
+          <span class="lbl">Email</span>
+          <div class="email"><code id="mail">dr.ali2014@gmail.com</code><button class="copy" id="copyBtn" type="button">Copy</button></div>
+        </div>
+        <div class="row">
+          <span class="lbl">Based in</span>
+          <span>Milan, Italy · research activity in Leiden, the Netherlands</span>
+        </div>
+      </div>
+      <div>
+        <div class="row"><span class="lbl">Profiles</span>
+          <a href="https://www.linkedin.com/in/alimohamed8" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/AliA-Mohamed" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://orcid.org/0000-0002-0264-9191" target="_blank" rel="noopener">ORCID</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Ali Mohamed</span><span>Milan · Leiden</span></div></footer>
+
+<script>
+(function () {
+  // ---- Routing ----
+  const pages = [...document.querySelectorAll('.page')];
+  const navLinks = [...document.querySelectorAll('.links a')];
+  const links = document.getElementById('links');
+  const menuBtn = document.getElementById('menuBtn');
+  function show() {
+    const id = (location.hash || '#home').slice(1);
+    const target = pages.find(p => p.dataset.page === id) ? id : 'home';
+    pages.forEach(p => { p.hidden = p.dataset.page !== target; });
+    navLinks.forEach(a => a.getAttribute('href') === '#' + target ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
+    links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false');
+    window.scrollTo(0, 0);
+    net.setVisible(target === 'home');
+  }
+  menuBtn.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open));
+  });
+
+  // ---- Copy email ----
+  document.getElementById('copyBtn').addEventListener('click', e => {
+    const btn = e.currentTarget, text = document.getElementById('mail').textContent;
+    const done = () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1600); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('mail')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; };
+    try { navigator.clipboard.writeText(text).then(done, select); } catch (_) { select(); }
+  });
+
+  // ---- Multi-omics network (page background) ----
+  const net = (function () {
+    const box = document.getElementById('net'), cv = document.getElementById('netCanvas'), ctx = cv.getContext('2d');
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, nodes = [], frame = 0, running = false, mouse = { x: -1e4, y: -1e4 };
+    const kinds = ['--metab', '--lipid', '--rna'];
+    const col = k => getComputedStyle(document.documentElement).getPropertyValue(k).trim();
+    function resize() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.min(95, Math.max(30, Math.round(W * H / 13000)));
+      nodes = Array.from({ length: n }, (_, i) => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3,
+        k: i % 3, r: 1.5 + Math.random() * 1.8
+      }));
+      draw(true);
+    }
+    function draw(once) {
+      ctx.clearRect(0, 0, W, H);
+      const c = kinds.map(col), L = Math.min(140, Math.max(90, W / 9)), M = 170;
+      if (!once) for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1;
+      }
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < L) { ctx.globalAlpha = (1 - d / L) * (a.k === b.k ? .32 : .16); ctx.strokeStyle = c[a.k]; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+      }
+      for (const n of nodes) {
+        const dm = Math.hypot(n.x - mouse.x, n.y - mouse.y), near = dm < M;
+        if (near) { ctx.globalAlpha = (1 - dm / M) * .55; ctx.strokeStyle = c[n.k]; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+        ctx.globalAlpha = near ? .95 : .6; ctx.fillStyle = c[n.k];
+        ctx.beginPath(); ctx.arc(n.x, n.y, near ? n.r + 1.4 : n.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (!once && running) frame = requestAnimationFrame(() => draw(false));
+    }
+    function setVisible(on) {
+      box.hidden = !on;
+      cancelAnimationFrame(frame); running = false;
+      if (on && !reduce) { running = true; frame = requestAnimationFrame(() => draw(false)); }
+    }
+    addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    document.addEventListener('pointerleave', () => { mouse.x = mouse.y = -1e4; });
+    addEventListener('resize', resize);
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => draw(true));
+    resize();
+    return { setVisible };
+  })();
+
+  addEventListener('hashchange', show);
+  show();
+})();
+</script>
+
+</body>
+</html>
